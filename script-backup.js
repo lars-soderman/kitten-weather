@@ -73,11 +73,11 @@ const getWeekday = (daysFromToday) => {
             `
             sunriseSunsetContainer.innerHTML =
             `   <div>
-                    <img src='/resources/icons/sunrise.svg'>
+                    <img src='./icons/sunrise.svg'>
                     <h4>${toTimeString(json.sys.sunrise)}</h4>
                 </div>
                 <div>
-                    <img src='/resources/icons/sunset.svg'>
+                    <img src='./icons/sunset.svg'>
                     <h4>${toTimeString(json.sys.sunset)}</h4>
                 </div>
             `
