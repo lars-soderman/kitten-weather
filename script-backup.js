@@ -68,7 +68,7 @@ const getWeekday = (daysFromToday) => {
             currentWeatherContainer.innerHTML =
             `
                 <h3>${json.weather[0].main}</h3>
-                <img src='http://openweathermap.org/img/wn/${json.weather[0].icon}@4x.png'>
+                <img src='https://openweathermap.org/img/wn/${json.weather[0].icon}@4x.png'>
                 <h2>${json.main.temp.toFixed()}°</h2>
             `
             sunriseSunsetContainer.innerHTML =
