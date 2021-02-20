@@ -38,7 +38,7 @@ const getWeekday = (daysFromToday) => {
             // console.log(thisDay)
             
             for(let i = 0; i < 6; i++) {
-                const iconUrl = `http://openweathermap.org/img/wn/${json.list[i].weather[0].icon}@2x.png`
+                const iconUrl = `https://openweathermap.org/img/wn/${json.list[i].weather[0].icon}@2x.png`
                 forecastContainer.innerHTML += 
                 `
                     <div class="day ${json.list[i].dt_txt.includes(dateToday()) ? `today` : `not-today`}">
@@ -59,7 +59,7 @@ const getWeekday = (daysFromToday) => {
     // Get current weather from openweather
     const getCurrentWeather = () => {
         if (city && country) {
-        const currentWeatherApiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=metric&APPID=`
+        const currentWeatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=metric&APPID=`
         console.log('')
         fetch (currentWeatherApiUrl + openWeatherApiKey)
         .then(response => response.json())
