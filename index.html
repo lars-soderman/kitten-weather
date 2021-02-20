@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Kitten Weather</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </nav>
+    </header>
+    <div class="divider"></div>
+    <main id="main">
+        <form action="#">
+            <input type="text" id="city-input" value="" placeholder="Stockholm">
+            <img src="/resources/icons/geo.svg" id="geo-locate" alt="geo locate">
+            <img src="/resources/icons/search.svg" id="search-btn" alt="search">
+        </form>
+        <div class="divider"></div>
+        <section id="current-weather-container"></section>
+        <div class="divider"></div>
+        <section id="sunrise-sunset-container"></section>
+        <div class="divider"></div>
+        <section id="forecast-container"></section>
+        <div class="divider"></div>
+        <div id="js-area"></div>
+        <!-- <p>Hallå hallå</p> -->
+    </main>
+    <script src="script-backup.js"></script>
+</body>
+</html>
