@@ -92,6 +92,22 @@ form img {
     cursor: pointer;
 }
 
+form input[type=submit] {
+    background: url("./icons/search.svg") no-repeat center center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    color: transparent;
+    font-size: 0;
+    cursor: pointer;
+    margin: auto;
+}
+
+
+#search-btn {
+    cursor: pointer;
+}
+
 #city-input {
     padding: 8px 0;
     font-size: 24px;
@@ -107,6 +123,10 @@ form img {
     color: #48484A;
     font-weight: 600;
     letter-spacing: -0.3px;
+}
+
+#city-input:focus {
+    background: none;
 }
 
 #current-weather-container {
@@ -135,6 +155,8 @@ form img {
 
 #current-weather-container img {
     height: 140px;
+    position: relative;
+    top: -5%;
 }
 
 #sunrise-sunset-container {
