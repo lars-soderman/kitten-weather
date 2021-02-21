@@ -1,15 +1,14 @@
 * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* border: 1px solid pink; */
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    /* border: 1px solid pink; */
 }
 
 html {
     background-color: #E5E5E5;
-
 }
 
 body {
@@ -19,16 +18,8 @@ body {
     margin-top: 10vh;
     height: 896px;
     border-radius: 25px;
-    /* box-shadow: 0 0 100px black; */
-    /* width: 100px; */
-    /* height: 100px; */
     padding: 16px;
     background: #B2B2B2;
-    /* background: linear-gradient(90deg, rgba(197,195,230,1) 0%, rgba(0,212,255,1) 100%); */
-}
-
-main {
-
 }
 
 main, p {
@@ -37,11 +28,29 @@ main, p {
     font-weight: 600;
     overflow: auto;
     color: #48484A;
-    /* margin: 0 auto; */
 }
 
 nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* position: relative;
+    top: -20px; */
     padding: 8px;
+}
+
+nav p {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex: 1;
+    color: white;
+    
+}
+
+#time-container {
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .hamburger {
@@ -80,6 +89,7 @@ form img {
 #geo-locate {
     margin-right: 16px;
     margin-left: auto;
+    cursor: pointer;
 }
 
 #city-input {
@@ -103,6 +113,7 @@ form img {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    height: 130px
 }
 
 #current-weather-container h3 {
@@ -146,45 +157,53 @@ form img {
     /* margin-right: auto; */
 }
 
-#forecast-container {
-    margin: -8px 0;
+.forecast-container {
+
+    margin: 0;
 }
 
-#forecast-container .day {
+.forecast-container .line {
     display: flex;
+    margin: 0 8px;
     flex-direction: row;
     justify-content: space-between;
     height: 40px;
     overflow: hidden;
 }
 
-#forecast-container .day:not(:last-child) {
+.forecast-container .line:not(:last-child) {
     border-bottom: 1px solid #48484A;
 }
 
-.day img {
+.line img {
     /* width: auto; */
     height: 150%;
     /* object-position: center; */
     object-fit: cover;
     position: relative;
     top: -25%;
-    margin-right: 40px;
+    /* margin-right: 40px; */
     margin-left: auto;
 }
 
-#forecast-container p {
+.forecast-container p {
     font-size: 20px;
     margin: auto 0;
+    /* margin-right: 16px; */
     color: white;
 }
 
-#forecast-container .not-today {
-    height: 35px;
+.forecast-container .not-today {
+    height: 30px;
 }
 
-#forecast-container .not-today p,
-#forecast-container .not-today img {
-    opacity: 50%;
-    font-size: 18px;
+.forecast-container .not-today p,
+.forecast-container .not-today img {
+    opacity: 80%;
+    font-size: 16px;
+}
+
+.forecast-temperature {
+    text-align: right;
+    width: 80px;
 }
