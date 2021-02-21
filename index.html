@@ -23,21 +23,21 @@
         <form action="#">
             <input type="text" id="city-input" value="" placeholder="Stockholm">
             <img src="./icons/geo.svg" id="geo-locate" alt="geo locate">
-            <input type="submit"></input>
-            <!-- <img src="./icons/search.svg" id="search-btn" alt="search"> -->
+            <input type="submit" id="search-btn"></input>
         </form>
         <div class="divider"></div>
-        <p id="time-container"></p>
-        <section id="current-weather-container"></section>
-        <!-- <div class="divider"></div> -->
-        <section id="sunrise-sunset-container"></section>
-        <div class="divider"></div>
-        <section id="day-forecast-container" class="day forecast-container"></section>
-        <div class="divider"></div>
-        <section id="week-forecast-container" class="week forecast-container"></section>
-        <div class="divider"></div>
-        <div id="js-area"></div>
-        <!-- <p>Hallå hallå</p> -->
+        <section class="time-place">
+            <div id="place"></div>
+            <div id="time"></div>
+        </section>
+        <section id="weather-container">
+            <!-- <section id="current-weather"></section>
+            <section id="sunrise-sunset"></section>
+            <div class="divider"></div>
+            <section id="day-forecast" class="day forecast"></section>
+            <div class="divider"></div>
+            <section id="week-forecast" class="week forecast"></section> -->
+        </section>
     </main>
     <script src="script.js"></script>
 </body>
