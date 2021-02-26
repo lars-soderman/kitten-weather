@@ -1,19 +1,28 @@
+// const main = document.getElementById('main')
+// const content = document.getElementById('content')
 const date = document.getElementById('date')
+// const timePlace = document.getElementById('time-place')
 const time = document.getElementById('time')
 const place = document.getElementById('place')
 const weatherContainer = document.getElementById('weather-container')
-const searchInput = document.getElementById('search-input')
+// const currentWeather = document.getElementById('current-weather')
+// const sunriseSunset = document.getElementById('sunrise-sunset')
+// const dayForecastC = document.getElementById('day-forecast')
+// const weekForecast = document.getElementById('week-forecast')
+const cityInput = document.getElementById('city-input')
 const geoLocate = document.getElementById('geo-locate')
 const searchBtn = document.getElementById('search-btn')
 
+
 const locationIQAccessToken = 'pk.cb782d57e1da5eb2b2f70566b4fdb2eb'
 const openWeatherApiKey = '3addfde144e16d817dcc3a5e9a46ea59' 
+// let latitude = ''
+// let longitude = ''
 let foundPlace
+
 
 // Put date in nav
 date.innerHTML = new Date().toLocaleString('en-EN', { weekday: 'long', month: 'long', day: 'numeric' })
-
-// Helper functions
 
 const dateToday = () => {
     return new Date().toLocaleDateString()
@@ -30,32 +39,19 @@ const getWeekday = (daysFromToday) => {
     return week[now.getDay() + daysFromToday]
 }
 
+// Gets poem based on current weather
+const getPoem = (term) => {
+    // Have to sort out coors issue with this request... too bad
+    const uId = '8567'
+    const token = 'nsFsv5SR5cGIYZgZ'
+    const url = `https://www.stands4.com/services/v2/poetry.php?uid=${uId}&tokenid=${token}&term=${term}&format=json`
+    fetch(url).then(response => response.json()).then(json => {
+        console.log(json)
+    })
+}
+
 // Render weather
 const renderWeather = (json) => {
-    
-    const renderDayInfo = (json) => {
-        console.log(json)
-        let dayInfo = ''
-        dayInfo +=
-            `
-            <p>Temp feels like:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp morning:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp day:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp evening:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp night:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp min:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp max:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp max:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Cloud cover:<span> ${json.current.clouds}%</span></p>
-            <p>Humidity:<span> ${json.current.humidity}%</span></p>
-            <p>Air pressure:<span> ${json.current.pressure}hPa</span></p>
-            <p>UV index:<span> ${json.current.uvi}</span></p>
-            <p>Wind direction:<span> ${json.current.wind_deg}</span></p>
-            <p>Wind speed:<span> ${json.current.wind_speed}</span></p>
-            <p>Dew point:<span> ${json.current.dew_point}</span></p>
-            `
-        return dayInfo
-    }
     
     const renderDayForecast = (json) => {
         let dayForecast = ''
@@ -89,11 +85,6 @@ const renderWeather = (json) => {
         <img src='https://openweathermap.org/img/wn/${json.current.weather[0].icon}@4x.png'>
         <h2>${json.current.temp.toFixed()}°</h2>
     </section>
-    <div class="divider"></div>
-    <section id="day-info-forecast" class="day-info">
-        ${renderDayInfo(json)}
-    </section>
-    <div class="divider"></div>
     <section id="sunrise-sunset">
         <div>
             <img src='./icons/sunrise.svg'>
@@ -126,6 +117,7 @@ const getWeatherFromCoords = (lat, lon) => {
     .then(json => {
         console.log(json)
         renderWeather(json)
+        getPoem(json.current.weather[0].main)
     })
 }
 
@@ -142,7 +134,11 @@ const getPlaceFromCoords = (latitude, longitude) => {
                 foundPlace = json.address.county
             }
             console.log(foundPlace)
-            place.innerHTML = `<p>${foundPlace}</p>`
+            place.innerHTML += `<p>${foundPlace}</p>`
+            // country = json.address.country
+            // Call next function
+            // getCurrentWeather()
+            // getForecast()
         })
 }
 
@@ -157,10 +153,10 @@ const getCoordsFromSearch = (str) => {
         console.log('')
         console.log(json)
         if (json.length) {
-            console.log()
             getWeatherFromCoords(json[0].lat, json[0].lon)
-            console.log()
             getPlaceFromCoords(json[0].lat, json[0].lon)
+            // getForecastFromCoords(json[0].lat, json[0].lon)
+
         } else {
             currentWeather = 
             `<p>Sorry! Didn't find any weather on that location</p>`
@@ -172,38 +168,32 @@ const getCoordsFromSearch = (str) => {
 const getUserCoords = () => {
     console.log('')
     const success = (position) => {
-        console.log('')
+        // latitude = position.coords.latitude
+        // longitude = position.coords.longitude
+        // Call next function
         getWeatherFromCoords(position.coords.latitude, position.coords.longitude)
-        console.log('')
         getPlaceFromCoords(position.coords.latitude, position.coords.longitude)
+
+        // getForecastFromCoords(json[0].lat, json[0].lon)
 }
     const error = () => {
         console.log('Unable to retrieve your location')
     }
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success, error)
+        // console.('40')
     } else {
         console.log('Geolocation not supported!')
     }
 }
 
 geoLocate.addEventListener('click', () => {getUserCoords()})
-
-searchInput.addEventListener('keydown', function (key) {
+cityInput.addEventListener('keydown', function (key) {
     if (key.key === 'Enter') {
-        getCoordsFromSearch(searchInput.value)
+        getCoordsFromSearch(cityInput.value)
     }
 })
 searchBtn.addEventListener('click', () => {
-    getCoordsFromSearch(searchInput.value)
+    getCoordsFromSearch(cityInput.value)
 })
-
-window.addEventListener('load', (event) => {
-    console.log('window load')
-    getWeatherFromCoords(59.303590400000004, 17.979222099999998)
-    console.log('')
-    getPlaceFromCoords(59.303590400000004, 17.979222099999998)
-    console.log('')
-})
-
 
