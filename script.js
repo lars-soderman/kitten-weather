@@ -34,85 +34,93 @@ const getWeekday = (daysFromToday) => {
 const renderWeather = (json) => {
     
     const renderDayInfo = (json) => {
-        console.log(json)
+        const dayInfoRef = [
+            `<p class="title">Temp feels like</p><p class="data"> ${Math.round(json.current.feels_like)}°</span></p>`,
+            `<p class="title">Cloud cover</p><p class="data"> ${json.current.clouds}%</p>`,
+            `<p class="title">Humidity</p><p class="data"> ${json.current.humidity}%</p>`,
+            `<p class="title">Air pressure</p><p class="data"> ${json.current.pressure} hPa</p>`,
+            `<p class="title">UV index</p><p class="data"> ${json.current.uvi}</p>`,
+            `<p class="title">Wind direction</p><p class="data"> ${json.current.wind_deg}</p>`,
+            `<p class="title">Wind speed</p><p class="data"> ${json.current.wind_speed}</p>`,
+            `<p class="title">Dew point</p><p class="data"> ${json.current.dew_point}</p>`,
+            `<p class="title">Temp morning</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
+            `<p class="title">Temp day</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
+            `<p class="title">Temp evening</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
+            `<p class="title">Temp night</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
+            `<p class="title">Temp min</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
+            `<p class="title">Temp max</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
+        ]
+
         let dayInfo = ''
-        dayInfo +=
-            `
-            <p>Temp feels like:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp morning:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp day:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp evening:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp night:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp min:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp max:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Temp max:<span> ${Math.round(json.current.feels_like)}°</span></p>
-            <p>Cloud cover:<span> ${json.current.clouds}%</span></p>
-            <p>Humidity:<span> ${json.current.humidity}%</span></p>
-            <p>Air pressure:<span> ${json.current.pressure}hPa</span></p>
-            <p>UV index:<span> ${json.current.uvi}</span></p>
-            <p>Wind direction:<span> ${json.current.wind_deg}</span></p>
-            <p>Wind speed:<span> ${json.current.wind_speed}</span></p>
-            <p>Dew point:<span> ${json.current.dew_point}</span></p>
-            `
+        dayInfoRef.forEach(item => {
+            dayInfo +=`
+            <div class="day-info-unit">
+                ${item}
+            </div>`
+        })
         return dayInfo
     }
-    
     const renderDayForecast = (json) => {
         let dayForecast = ''
-        for(let i = 0; i < 9; i++) {
+        for(let i = 0; i < json.hourly.length; i++) {
             dayForecast +=
             `<div class="line ${(new Date(json.hourly[i].dt * 1000).toDateString() === new Date().toDateString()) ? `today` : `not-today`}">
-                <p>${toTimeString(json.hourly[i].dt)}</p>
-                <img src="https://openweathermap.org/img/wn/${json.hourly[i].weather[0].icon}@2x.png">
+                <p class="time">${toTimeString(json.hourly[i].dt)}</p>
+                <div class="img-container">
+                    <img src="https://openweathermap.org/img/wn/${json.hourly[i].weather[0].icon}@2x.png">
+                </div>
                 <p class="forecast-temperature">${Math.round(json.hourly[i].temp)}°</p>
-            </div>`   
+            </div>`
         }
         return dayForecast
     }
     const renderWeekForecast = (json) => {
         let weekForecast = ''
-        for(let i = 0; i < json.daily.length; i++) {
+        json.daily.forEach((item, i) => {
+        // for(let i = 0; i < json.daily.length; i++) {
             weekForecast +=
             `<div class="line">
                 <p>${getWeekday(i + 1)}</p>
                 <img src="https://openweathermap.org/img/wn/${json.daily[i].weather[0].icon}@2x.png">
                 <p class="forecast-temperature">${Math.round(json.daily[i].temp.day)}°</p>
             </div>`
-        }
+        })
         return weekForecast
     }
     time.innerHTML = `<p>${new Date().toLocaleTimeString(['se-SE'], { hour: '2-digit', minute: '2-digit' })}</p>`
     weatherContainer.innerHTML =`
-
-    <section id="current-weather">
-        <h3>${json.current.weather[0].main}</h3>
-        <img src='https://openweathermap.org/img/wn/${json.current.weather[0].icon}@4x.png'>
-        <h2>${json.current.temp.toFixed()}°</h2>
-    </section>
-    <div class="divider"></div>
-    <section id="day-info-forecast" class="day-info">
-        ${renderDayInfo(json)}
-    </section>
-    <div class="divider"></div>
-    <section id="sunrise-sunset">
-        <div>
-            <img src='./icons/sunrise.svg'>
-            <h4>${toTimeString(json.current.sunrise)}</h4>
-        </div>
-        <div>
-            <img src='./icons/sunset.svg'>
-            <h4>${toTimeString(json.current.sunset)}</h4>
-        </div>
-    </section>
-    <div class="divider"></div>
-    <section id="day-forecast" class="day forecast">
-        ${renderDayForecast(json)}
-    </section>
-    <div class="divider"></div>
-    <section id="week-forecast" class="week forecast">
-        ${renderWeekForecast(json)}
-    </section>
-    <div class="divider"></div>`
+        <section id="current-weather">
+            <h3>${json.current.weather[0].main}</h3>
+            <div class="weather-icon-container">
+                <img src='https://openweathermap.org/img/wn/${json.current.weather[0].icon}@4x.png'>
+            </div>
+            <h2>${json.current.temp.toFixed()}°</h2>
+        </section>
+        <div class="divider"></div>
+        <section id="sunrise-sunset">
+            <div>
+                <img src='./icons/sunrise.svg'>
+                <h4>${toTimeString(json.current.sunrise)}</h4>
+            </div>
+            <div>
+                <img src='./icons/sunset.svg'>
+                <h4>${toTimeString(json.current.sunset)}</h4>
+            </div>
+        </section>
+        <div class="divider"></div>
+        <section id="day-forecast" class="day forecast">
+            ${renderDayForecast(json)}
+        </section>
+        <div class="divider"></div>
+        <section id="day-info" class="day-info">
+            ${renderDayInfo(json)}
+        </section>
+        <div class="divider"></div>
+        <section id="week-forecast" class="week forecast">
+            ${renderWeekForecast(json)}
+        </section>
+        <div class="divider"></div>
+    `
     
 }
 

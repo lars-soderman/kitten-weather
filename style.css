@@ -163,6 +163,7 @@ form {
 
 #current-weather {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
     height: 130px
@@ -173,9 +174,6 @@ form {
     color: white;
     font-size: 40px;
     font-weight: 400;
-
-    /* flex: 1; */
-    /* display: inline; */
 }
 
 #current-weather h2 {
@@ -185,24 +183,68 @@ form {
     color: white;
 }
 
-#current-weather img {
-    height: 140px;
+.weather-icon-container {
+    overflow: hidden;
+}
+
+.weather-icon-container img {
+    max-height: 140px;
     margin: auto 0;
     position: relative;
     top: -5%;
+    object-fit: contain;
 }
 
-.day-info p {
-    padding-left: 8px;
-    font-size: 16px;
-    line-height: 1.6;
+.day-info {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -4px;
+}
+
+.day-info-unit {
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 2px;
+    width: 50%;
+    position: relative;
+}
+
+/* Horizontal rulers */
+.day-info-unit:nth-child(n+3)::before {
+    content: ' ';
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    top: -4px;
+    /* right: 0; */
+    width: 100%;
+    height: 1px;
+    background: #48484A;
+    opacity: .2;
+}
+
+/* Vertical rulers */
+.day-info-unit:not(:nth-child(2n))::after {
+    content: ' ';
+    background: #48484A;
+    opacity: .2;
+    position: absolute;
+    bottom: 4px;
+    /* top: 4px; */
+    right: 0;
+    height: 70%;
+    width: 1px;
+}
+
+.day-info-unit>.title {
+    font-size: 14px;
     font-weight: 500;
-    color: white;
+    color: #48484A;
 }
 
-.day-info span {
-    color: #48484A;
-    font-weight: 600;
+.day-info-unit>.data {
+    font-size: 20px;
+    color: white;
 }
 
 #sunrise-sunset {
@@ -222,42 +264,105 @@ form {
     font-size: 14px;
     margin: auto 0 auto 24px;
     color: #48484A;
-    /* margin-right: auto; */
 }
 
-.forecast .line {
+.day.forecast {
+    /* position: relative; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.day.forecast .line {
     display: flex;
     margin: 0 8px;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    height: auto;
+    min-width: 100px;
+    border-right: 1px solid black;
+    /* overflow: hidden; */
+    text-align: center;
+}
+
+.day.forecast .line p {
+    font-size: 14px;
+}
+
+.day.forecast .line .img-container {
     height: 40px;
-    overflow: hidden;
 }
 
-.forecast .line:not(:last-child) {
-    border-bottom: 1px solid #48484A;
-}
-
-.line img {
-    /* width: auto; */
-    height: 150%;
-    /* object-position: center; */
-    object-fit: cover;
-    position: relative;
-    top: -25%;
-    /* margin-right: 40px; */
-    margin-left: auto;
-    margin-right: 24px;
-}
-
-.forecast p {
-    font-size: 20px;
-    margin: auto 0;
-    /* margin-right: 16px; */
+.day.forecast .line .forecast-temperature {
+    font-size: 24px;
     color: white;
 }
 
-.forecast .not-today {
+
+.week.forecast .line {
+    /* background: blueviolet; */
+    /* margin-bottom: 10px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* flex-wrap: nowrap; */
+    /* flex-direction: row; */
+}
+
+/* .line::after {
+    content: ' ';
+    background: #48484A;
+    /* opacity: .2; */
+    /* position: absolute; */
+    /* bottom: 4px; */
+    /* top: 4px; */
+    /* right: 0;
+    height: 100%;
+    width: 1px; */
+/* } */ */
+
+
+/* .forecast .line:not(:last-child)::after { */
+/* .day.forecast>.line::after {
+    content: ' ';
+    background: #48484A;
+    opacity: .2;
+    position: absolute;
+    bottom: 4px;
+    /* top: 4px; */
+    /* right: 0;
+    height: 70%;
+    width: 1px; */ 
+
+    /* content: ' ';
+    background: white;
+    position: absolute;
+    width: 1px;
+    height: 80px;
+    right: 10px;
+    top: -10px; */
+    /* left: 0%; */
+    /* border-right: 1px solid #48484A; */
+/* } */
+
+/* .line img { */
+    /* height: 150%; */
+    /* object-fit: cover; */
+    /* position: relative; */
+    /* top: -25%; */
+    /* margin-left: auto; */
+    /* margin-right: 24px; */
+/* } */
+
+.forecast p {
+    font-size: 20px;
+    /* margin: auto 0; */
+    color: white;
+}
+
+/* .forecast .not-today {
     height: 30px;
 }
 
@@ -265,13 +370,12 @@ form {
 .forecast .not-today img {
     opacity: 80%;
     font-size: 14px;
-}
+} */
 
-.forecast-temperature {
+/* .forecast-temperature {
     text-align: right;
     min-width: 40px;
-    /* margin-left: 24px; */
-}
+} */
 
 /* BREAKPOINTS */
 
