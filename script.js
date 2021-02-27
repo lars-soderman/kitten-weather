@@ -33,6 +33,25 @@ const getWeekday = (daysFromToday) => {
 // Render weather
 const renderWeather = (json) => {
     
+    const renderCurrentWeather = (json) => {
+            return `<h3>${json.current.weather[0].main}</h3>
+            <div class="weather-icon-container">
+                <img src='https://openweathermap.org/img/wn/${json.current.weather[0].icon}@4x.png'>
+            </div>
+            <h2>${json.current.temp.toFixed()}°</h2> `
+        
+    }
+    const renderSunsetSunrise = (json) => {
+        return `<div>
+        <img src='./icons/sunrise.svg'>
+        <h4>${toTimeString(json.current.sunrise)}</h4>
+    </div>
+    <div>
+        <img src='./icons/sunset.svg'>
+        <h4>${toTimeString(json.current.sunset)}</h4>
+    </div>`
+
+    }
     const renderDayInfo = (json) => {
         const dayInfoRef = [
             `<p class="title">Temp feels like</p><p class="data"> ${Math.round(json.current.feels_like)}°</span></p>`,
@@ -64,7 +83,7 @@ const renderWeather = (json) => {
         let dayForecast = ''
         for(let i = 0; i < json.hourly.length; i++) {
             dayForecast +=
-            `<div class="line ${(new Date(json.hourly[i].dt * 1000).toDateString() === new Date().toDateString()) ? `today` : `not-today`}">
+            `<div class="unit ${(new Date(json.hourly[i].dt * 1000).toDateString() === new Date().toDateString()) ? `today` : `not-today`}">
                 <p class="time">${toTimeString(json.hourly[i].dt)}</p>
                 <div class="img-container">
                     <img src="https://openweathermap.org/img/wn/${json.hourly[i].weather[0].icon}@2x.png">
@@ -90,22 +109,11 @@ const renderWeather = (json) => {
     time.innerHTML = `<p>${new Date().toLocaleTimeString(['se-SE'], { hour: '2-digit', minute: '2-digit' })}</p>`
     weatherContainer.innerHTML =`
         <section id="current-weather">
-            <h3>${json.current.weather[0].main}</h3>
-            <div class="weather-icon-container">
-                <img src='https://openweathermap.org/img/wn/${json.current.weather[0].icon}@4x.png'>
-            </div>
-            <h2>${json.current.temp.toFixed()}°</h2>
+            ${renderCurrentWeather(json)}
         </section>
         <div class="divider"></div>
         <section id="sunrise-sunset">
-            <div>
-                <img src='./icons/sunrise.svg'>
-                <h4>${toTimeString(json.current.sunrise)}</h4>
-            </div>
-            <div>
-                <img src='./icons/sunset.svg'>
-                <h4>${toTimeString(json.current.sunset)}</h4>
-            </div>
+            ${renderSunsetSunrise(json)}
         </section>
         <div class="divider"></div>
         <section id="day-forecast" class="day forecast">
