@@ -7,11 +7,6 @@
     /* border: 1px solid pink; */
 }
 
-* img {
-    /* filter: contrast(200%); */
-    /* filter: brightness(200%); */
-}
-
 :root {
     --dark-color: #48484A;
     --light-color: white;
@@ -27,7 +22,7 @@ body {
     height: 100vh;
     padding: 8px 8px;
     /* background: hsl(92, 60, 65); */
-    /* background: #B2B2B2; */
+    background: #B2B2B2;
     /* background: hsl(35, 56%, 65%); */
 }    
 

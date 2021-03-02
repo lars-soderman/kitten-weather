@@ -5,14 +5,11 @@ const weatherContainer = document.getElementById('weather-container')
 const searchInput = document.getElementById('search-input')
 const geoLocate = document.getElementById('geo-locate')
 const searchBtn = document.getElementById('search-btn')
-// const body = document.getElementById()
 
 const locationIQAccessToken = 'pk.cb782d57e1da5eb2b2f70566b4fdb2eb'
 const openWeatherApiKey = '3addfde144e16d817dcc3a5e9a46ea59' 
 let foundPlace
 
-// Put date in nav
-// date.innerHTML = new Date().toLocaleString('en-EN', { weekday: 'long', month: 'long', day: 'numeric' })
 
 // Helper functions
 
@@ -40,7 +37,6 @@ const renderWeather = (json) => {
                 <img src='https://openweathermap.org/img/wn/${json.current.weather[0].icon}@4x.png'>
             </div>
             <h2>${json.current.temp.toFixed()}°</h2> `
-        
     }
     const renderSunsetSunrise = (json) => {
         return `<div>
@@ -97,7 +93,6 @@ const renderWeather = (json) => {
     const renderWeekForecast = (json) => {
         let weekForecast = ''
         json.daily.forEach((item, i) => {
-        // for(let i = 0; i < json.daily.length; i++) {
             weekForecast +=
             `<div class="line">
                 <p class="weekday">${getWeekday(i + 1)}</p>
@@ -107,7 +102,8 @@ const renderWeather = (json) => {
         })
         return weekForecast
     }
-    const test = 'duu'
+
+    // Im going to improve this when i get around to it, so that it changes the background to more suitable colors
     const setBGColor = (temp) => {
         const hue = 80 + temp * 20
         const saturation = 22
@@ -116,11 +112,8 @@ const renderWeather = (json) => {
         console.log('temp ' + temp)
         console.log(hsl)
         document.body.style.background = hsl
-
-
     }
     time.innerHTML = `<p>${new Date().toLocaleTimeString(['se-SE'], { hour: '2-digit', minute: '2-digit' })}</p>`
-    // setBGColor(Math.round(5))
     setBGColor(Math.round(json.current.temp))
     // And now for the actual rendering of the actual weather
     weatherContainer.innerHTML =`
@@ -162,6 +155,7 @@ const getWeatherFromCoords = (lat, lon) => {
 }
 
 // Get city and country from coordinates
+// I have some problems getting a predictable response so i can show correct location in "place". Should maybe use some other api or endpoint
 const getPlaceFromCoords = (latitude, longitude) => {
         const url = `https://eu1.locationiq.com/v1/reverse.php?key=${locationIQAccessToken}&lat=${latitude}&lon=${longitude}&format=json`
         fetch(url)
@@ -172,6 +166,8 @@ const getPlaceFromCoords = (latitude, longitude) => {
                 foundPlace = `${json.address.city}, ${json.address.country}`
             } else if (json.address.county) {
                 foundPlace = `${json.address.county}, ${json.address.country}`
+            } else if (json.address.state) {
+                foundPlace = `${json.address.state}, ${json.address.country}`
             }
             console.log(foundPlace)
             place.innerHTML = `<p>${foundPlace}</p>`
