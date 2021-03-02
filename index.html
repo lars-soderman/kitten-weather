@@ -11,23 +11,23 @@
     <main id="main">
         <header>
             <nav>
-                <p id="date"></p>
-                <div class="hamburger">
+                <!-- <div class="hamburger">
                     <div></div>
                     <div></div>
                     <div></div>
-                </div>
+                </div> -->
             </nav>
+            <form class="search-form clickable" action="#">
+                <input type="submit" class="search-btn" id="search-btn"></input>
+                <input type="text" class="search-input" id="search-input" value=""placeholder="Search">
+                <input type="button" class="geo-locate" id="geo-locate"alt="geo locate">
+            </form>
         </header>
-        <form class="search-form clickable" action="#">
-            <input type="submit" class="search-btn" id="search-btn"></input>
-            <input type="text" class="search-input" id="search-input" value="" placeholder="Search">
-            <input type="button" class="geo-locate" id="geo-locate"alt="geo locate">
-        </form>
         <!-- <div class="divider"></div> -->
         <section class="time-place">
             <div id="place"></div>
             <div id="time"></div>
+            <!-- <p id="date"></p> -->
         </section>
         <section id="weather-container">
             <!-- <section id="current-weather"></section>

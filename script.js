@@ -5,13 +5,14 @@ const weatherContainer = document.getElementById('weather-container')
 const searchInput = document.getElementById('search-input')
 const geoLocate = document.getElementById('geo-locate')
 const searchBtn = document.getElementById('search-btn')
+// const body = document.getElementById()
 
 const locationIQAccessToken = 'pk.cb782d57e1da5eb2b2f70566b4fdb2eb'
 const openWeatherApiKey = '3addfde144e16d817dcc3a5e9a46ea59' 
 let foundPlace
 
 // Put date in nav
-date.innerHTML = new Date().toLocaleString('en-EN', { weekday: 'long', month: 'long', day: 'numeric' })
+// date.innerHTML = new Date().toLocaleString('en-EN', { weekday: 'long', month: 'long', day: 'numeric' })
 
 // Helper functions
 
@@ -32,7 +33,7 @@ const getWeekday = (daysFromToday) => {
 
 // Render weather
 const renderWeather = (json) => {
-    
+    // First some helper functions
     const renderCurrentWeather = (json) => {
             return `<h3>${json.current.weather[0].main}</h3>
             <div class="weather-icon-container">
@@ -62,12 +63,12 @@ const renderWeather = (json) => {
             `<p class="title">Wind direction</p><p class="data"> ${json.current.wind_deg}</p>`,
             `<p class="title">Wind speed</p><p class="data"> ${json.current.wind_speed}</p>`,
             `<p class="title">Dew point</p><p class="data"> ${json.current.dew_point}</p>`,
-            `<p class="title">Temp morning</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
-            `<p class="title">Temp day</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
-            `<p class="title">Temp evening</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
-            `<p class="title">Temp night</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
-            `<p class="title">Temp min</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
-            `<p class="title">Temp max</p><p class="data"> ${Math.round(json.current.feels_like)}°</p>`,
+            `<p class="title">Temp morning</p><p class="data"> ${Math.round(json.daily[0].temp.morn)}°</p>`,
+            `<p class="title">Temp day</p><p class="data"> ${Math.round(json.daily[0].temp.day)}°</p>`,
+            `<p class="title">Temp evening</p><p class="data"> ${Math.round(json.daily[0].temp.eve)}°</p>`,
+            `<p class="title">Temp night</p><p class="data"> ${Math.round(json.daily[0].temp.night)}°</p>`,
+            `<p class="title">Temp min</p><p class="data"> ${Math.round(json.daily[0].temp.min)}°</p>`,
+            `<p class="title">Temp max</p><p class="data"> ${Math.round(json.daily[0].temp.max)}°</p>`,
         ]
 
         let dayInfo = ''
@@ -99,14 +100,29 @@ const renderWeather = (json) => {
         // for(let i = 0; i < json.daily.length; i++) {
             weekForecast +=
             `<div class="line">
-                <p>${getWeekday(i + 1)}</p>
+                <p class="weekday">${getWeekday(i + 1)}</p>
                 <img src="https://openweathermap.org/img/wn/${json.daily[i].weather[0].icon}@2x.png">
                 <p class="forecast-temperature">${Math.round(json.daily[i].temp.day)}°</p>
             </div>`
         })
         return weekForecast
     }
+    const test = 'duu'
+    const setBGColor = (temp) => {
+        const hue = 80 + temp * 20
+        const saturation = 22
+        const lightness = 65
+        const hsl = `hsl(${hue}, ${saturation}%, ${lightness}%)`
+        console.log('temp ' + temp)
+        console.log(hsl)
+        document.body.style.background = hsl
+
+
+    }
     time.innerHTML = `<p>${new Date().toLocaleTimeString(['se-SE'], { hour: '2-digit', minute: '2-digit' })}</p>`
+    // setBGColor(Math.round(5))
+    setBGColor(Math.round(json.current.temp))
+    // And now for the actual rendering of the actual weather
     weatherContainer.innerHTML =`
         <section id="current-weather">
             ${renderCurrentWeather(json)}
@@ -153,9 +169,9 @@ const getPlaceFromCoords = (latitude, longitude) => {
         .then(json => {
             console.log(json)
             if (json.address.city) {
-                foundPlace = json.address.city
+                foundPlace = `${json.address.city}, ${json.address.country}`
             } else if (json.address.county) {
-                foundPlace = json.address.county
+                foundPlace = `${json.address.county}, ${json.address.country}`
             }
             console.log(foundPlace)
             place.innerHTML = `<p>${foundPlace}</p>`
@@ -216,10 +232,7 @@ searchBtn.addEventListener('click', () => {
 
 window.addEventListener('load', (event) => {
     console.log('window load')
-    getWeatherFromCoords(59.303590400000004, 17.979222099999998)
-    console.log('')
-    getPlaceFromCoords(59.303590400000004, 17.979222099999998)
-    console.log('')
+    getUserCoords()
 })
 
 
